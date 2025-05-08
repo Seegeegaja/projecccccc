@@ -17,11 +17,16 @@ spring:
     open-in-view: false
     show_sql: true
 
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
+
 cloud:
   aws:
     credentials:
-      access-key:
-      secret-key:
+      access-key: ${AWS_ACCESS_KEY}
+      secret-key: ${AWS_SECRET_KEY}
     s3:
       bucket: meltique-bucket
     region:

@@ -5,7 +5,9 @@ import com.amazonaws.services.s3.model.ObjectMetadata;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,29 +16,19 @@ import java.io.IOException;
 @RestController
 public class FileController {
     private final AmazonS3Client amazonS3Client;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucketName;
-
-    public FileController(AmazonS3Client amazonS3Client) {
+    private final S3Service s3Service;
+    public FileController(AmazonS3Client amazonS3Client, S3Service s3Service) {
         this.amazonS3Client = amazonS3Client;
+        this.s3Service = s3Service;
+    }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        String fileUrl = s3Service.uploadFile(file);
+        return ResponseEntity.ok(fileUrl);
     }
 
 
-    @PostMapping("/file/stream")
-    public void streamUpload(HttpServletRequest request) throws IOException {
-        ObjectMetadata metadata = new ObjectMetadata();
-        metadata.setContentType(request.getContentType());
-        metadata.setContentLength(request.getContentLengthLong());
-
-        String objectKey = "uploads/" + System.currentTimeMillis();
-        amazonS3Client.putObject(bucketName, objectKey, request.getInputStream(), metadata);
-        //    지금 올라간 이미지의 EndPoint 값을 읽어와서
-        //    DB에 저장
-        String fileUrl = amazonS3Client.getUrl(bucketName, objectKey).toString();
-        System.out.println(fileUrl);
-
-    }
 
 }
 
