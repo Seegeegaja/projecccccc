@@ -1,5 +1,6 @@
 package com.backend.meltique.config.awsconfig.s3;
 
+import com.backend.meltique.post.entity.Post;
 import com.backend.meltique.product.entity.Product;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -21,5 +22,8 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+    @ManyToOne
+    @JoinColumn(name = "post_id")
+    private Post post;
 
 }

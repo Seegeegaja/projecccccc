@@ -1,46 +1,34 @@
 package com.backend.meltique.post.controller;
 
 import com.backend.meltique.config.awsconfig.s3.S3Service;
+import com.backend.meltique.post.dto.PostCreateDto;
+import com.backend.meltique.post.dto.PostDTO;
 import com.backend.meltique.post.entity.Post;
-import com.backend.meltique.post.repository.PostRepository;
 import com.backend.meltique.post.service.PostService;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/post")
 public class PostController {
-    private final PostRepository postRepository;
     private final S3Service s3Service;
+    private final PostService postService;
 
-    public PostController(PostService postService, PostRepository postRepository, S3Service s3Service) {
-        this.postRepository = postRepository;
+    public PostController(PostService postService, S3Service s3Service) {
         this.s3Service = s3Service;
+        this.postService = postService;
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Post> insertPost(
-            @RequestParam("title") String title,
-            @RequestParam("content") String content,
-            @RequestParam(value = "file" , required = false)MultipartFile file
+    public ResponseEntity<PostDTO> insertPost(
+            @RequestPart("dto") PostCreateDto dto,
+            @RequestPart("file")List<MultipartFile> file
             ){
-        String imageUrl = null;
-        if (file != null && !file.isEmpty()) {
-            imageUrl = s3Service.uploadFile(file);
-        }
-
-        Post post = new Post();
-        post.setTitle(title);
-        post.setContent(content);
-        post.setImageUrl(imageUrl);
-        post.setLikeCount(0);
-        post.setViewCount(0);
-        Post savePost = postRepository.save(post);
-        return ResponseEntity.ok(savePost);
-
+        PostDTO dtos = postService.createPost(dto, file);
+        return ResponseEntity.ok(dtos);
     }
 }
 
