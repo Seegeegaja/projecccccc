@@ -12,4 +12,8 @@ public class PostCreateDto {
     private String title;
     private String content;
     private List<ImageDto> imageUrls = new ArrayList<>();
+    private String shopName;
+    private String shopLink;
+    private int price;
+
 }

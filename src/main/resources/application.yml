@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/meltique?autoReconnect=true&useUnicode=true&serverTimezone=Asia/Seoul
+    url: jdbc:mysql://cho.cn40saqqai25.ap-northeast-2.rds.amazonaws.com:3306/cho?serverTimezone=Asia/Seoul&characterEncoding=UTF-8
     username: admin
-    password: 1111
+    password: 1q2w3e4r5t!
   jpa:
     database: mysql
     database-platform: org.hibernate.dialect.MySQL8Dialect
@@ -25,8 +25,8 @@ spring:
 cloud:
   aws:
     credentials:
-      access-key: ${AWS_ACCESS_KEY}
-      secret-key: ${AWS_SECRET_KEY}
+      access-key:
+      secret-key:
     s3:
       bucket: meltique-bucket
     region:

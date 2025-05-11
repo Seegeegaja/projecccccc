@@ -29,6 +29,9 @@ public class PostService {
         post.setContent(dto.getContent());
         post.setViewCount(0);
         post.setLikeCount(0);
+        post.setShopLink(dto.getShopLink());
+        post.setPrice(dto.getPrice());
+        post.setShopName(dto.getShopName());
         post = postRepository.save(post);
 
         if (dto.getImageUrls() != null && !dto.getImageUrls().isEmpty()) {

@@ -32,6 +32,9 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.yaml:snakeyaml:2.2'
+//	DB
+	runtimeOnly 'com.mysql:mysql-connector-java'
 }
 
 tasks.named('test') {

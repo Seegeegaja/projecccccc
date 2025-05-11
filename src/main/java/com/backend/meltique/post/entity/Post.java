@@ -16,6 +16,9 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String title;
+    private String shopName;
+    private String shopLink;
+    private int price;
     private String content;
     private int viewCount;
     private int likeCount;
